@@ -93,7 +93,7 @@ export default class TextMarquee extends PureComponent {
       var tmp = -this.textWidth - repeatSpacer;
       if (tmp) {
         Animated.timing(this.animatedValue, {
-          toValue:         -this.textWidth - repeatSpacer,
+          toValue:         tmp,
           duration:        duration || children.length * 150,
           easing:          easing,
           useNativeDriver: useNativeDriver
