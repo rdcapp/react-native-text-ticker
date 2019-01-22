@@ -114,26 +114,28 @@ export default class TextMarquee extends PureComponent {
 
   animateBounce = () => {
     const {duration, marqueeDelay, loop, useNativeDriver, easing, children} = this.props
-    this.setTimeout(() => {
-      Animated.sequence([
-        Animated.timing(this.animatedValue, {
-          toValue:         -this.distance - 10,
-          duration:        duration || children.length * 50,
-          easing:          easing,
-          useNativeDriver: useNativeDriver
-        }),
-        Animated.timing(this.animatedValue, {
-          toValue:         10,
-          duration:        duration || children.length * 50,
-          easing:          easing,
-          useNativeDriver: useNativeDriver
+    if (this.distance) {
+      this.setTimeout(() => {
+        Animated.sequence([
+          Animated.timing(this.animatedValue, {
+            toValue:         -this.distance - 10,
+            duration:        duration || children.length * 50,
+            easing:          easing,
+            useNativeDriver: useNativeDriver
+          }),
+          Animated.timing(this.animatedValue, {
+            toValue:         10,
+            duration:        duration || children.length * 50,
+            easing:          easing,
+            useNativeDriver: useNativeDriver
+          })
+        ]).start(({finished}) => {
+          if (loop) {
+            this.animateBounce()
+          }
         })
-      ]).start(({finished}) => {
-        if (loop) {
-          this.animateBounce()
-        }
-      })
-    }, marqueeDelay)
+      }, marqueeDelay)
+    }
   }
 
   start = async (timeDelay) => {
